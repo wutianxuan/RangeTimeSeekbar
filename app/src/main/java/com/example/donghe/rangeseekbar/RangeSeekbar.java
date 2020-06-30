@@ -242,7 +242,8 @@ public class RangeSeekbar extends View {
     private void initData() {
         if (mTextArray == null || mTextArray.length == 0) {
 //            mTextArray = new String[]{"0", "5", "10", "15", "20", "25", "40", "60", "80", "100", "100+"};
-            mTextArray = new String[]{"08:00", "08:30", "09:00", "10:00", "10:30", "11:00", "11:30", "12:00"};;
+            //mTextArray = new String[]{"08:00", "08:30", "09:00", "10:00", "10:30", "11:00", "11:30", "12:00"};;
+            mTextArray = new String[]{};
         }
         mLeftCursorIndex = 0;
         mRightCursorIndex = mTextArray.length - 1;
@@ -898,7 +899,9 @@ public class RangeSeekbar extends View {
 
         void onRightCursorChanged(int location, String textMark);
     }
-    public void setOnCursorChangeListener(OnCursorChangeListener cursorChangeListener){
+    public void setOnCursorChangeListener(String[] date,OnCursorChangeListener cursorChangeListener){
+        mTextArray= date;
+        initData();
         mListener = cursorChangeListener;
     }
 }

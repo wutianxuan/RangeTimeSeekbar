@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tv_right)
     TextView tvRight;
     //String arrays[] = {"0", "5", "10", "15", "20", "25", "40", "60", "80", "100"};
-    String arrays[] = {"08:00", "08:30", "09:00", "10:00", "10:30", "11:00", "11:30", "12:00"};
+    String[]  arrays = {"08:00", "08:30", "09:00", "10:00", "10:30", "11:00", "11:30", "12:00"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //EventBus.getDefault().register(this);
-        seekbar.setOnCursorChangeListener(new RangeSeekbar.OnCursorChangeListener() {
+        seekbar.setOnCursorChangeListener(arrays,new RangeSeekbar.OnCursorChangeListener() {
             @Override
             public void onLeftCursorChanged(int location, String textMark) {
                 tvLeft.setText("左边:" + textMark);
