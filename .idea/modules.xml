@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HedongRangeSeekbar.iml" filepath="$PROJECT_DIR$/.idea/modules/HedongRangeSeekbar.iml" group="HedongRangeSeekbar" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/HedongRangeSeekbar-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/HedongRangeSeekbar-app.iml" group="HedongRangeSeekbar/app" />
       <module fileurl="file://$PROJECT_DIR$/RangeSeekbar.iml" filepath="$PROJECT_DIR$/RangeSeekbar.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
