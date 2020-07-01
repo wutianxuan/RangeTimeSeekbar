@@ -26,8 +26,8 @@ import de.greenrobot.event.EventBus;
 /**
  * seekbar 标尺刻度 支持左右滑动
  *
- * @author hedong
- * @time 2016/10/09
+ * @author tianer
+ * @time 2020/06/25
  */
 @TargetApi(Build.VERSION_CODES.FROYO)
 public class RangeSeekbar extends View {
@@ -44,7 +44,7 @@ public class RangeSeekbar extends View {
     private static final float MARK_HEIGHT = 6f;
     private static final float MARK_WIDTH = 1f;
     private static final float SEEKBAR_HEIGHT = 6f;
-    private static final float TEST_SIZE = 12f;
+    private static final float TEXT_SIZE = 10f;
     private static final float CURSOR_WIDTH = 12f;
     //private static final float CURSOR_HEIGHT = CURSOR_WIDTH * 36f / 30f;
     private static final float CURSOR_HEIGHT = 12f;
@@ -53,10 +53,11 @@ public class RangeSeekbar extends View {
    private static final float CURSOR_HINT_WIDTH = CURSOR_WIDTH;
     private static final float CURSOR_HINT_HEIGHT = CURSOR_HEIGHT;
 
+
+
     private enum DIRECTION {
         LEFT, RIGHT;
     }
-
     private int mDuration;
 
     /**
@@ -121,10 +122,11 @@ public class RangeSeekbar extends View {
     private RectF mSeekbarRect;
     private RectF mSeekbarRectSelected;
 
+    private float defaultRightCursorIndex =1;
     private float mLeftCursorIndex = 0;
-    private float mRightCursorIndex = 1.0f;
+    private float mRightCursorIndex =1;
     private int mLeftCursorNextIndex = 0;
-    private int mRightCursorNextIndex = 1;
+    private int mRightCursorNextIndex = (int) mRightCursorIndex;
 
     private Paint mPaint;
     private Paint mMarkPaint;
@@ -199,8 +201,7 @@ public class RangeSeekbar extends View {
 
         initPadding();
         initData();
-        initPaint();
-        initTextBoundsArray();
+
     }
 
 
@@ -246,11 +247,13 @@ public class RangeSeekbar extends View {
             mTextArray = new String[]{};
         }
         mLeftCursorIndex = 0;
-        mRightCursorIndex = mTextArray.length - 1;
-        mRightCursorNextIndex = (int) mRightCursorIndex;
+        mRightCursorIndex = defaultRightCursorIndex;
+        mRightCursorNextIndex = (int) defaultRightCursorIndex;
 
         mTextWidthArray = new float[mTextArray.length];
         mClickRectArray = new Rect[mTextArray.length];
+        initPaint();
+        initTextBoundsArray();
     }
 
     private void initPadding() {
@@ -291,7 +294,7 @@ public class RangeSeekbar extends View {
         mMarkColorNormal = mSeekbarColorNormal;
         mSeekbarHeight = (int) a.getDimension(R.styleable.RangeSeekbar_seekbarHeight, SEEKBAR_HEIGHT * metrics.density);
 
-        mTextSize = (int) a.getDimension(R.styleable.RangeSeekbar_textSize, TEST_SIZE * metrics.scaledDensity);
+        mTextSize = (int) a.getDimension(R.styleable.RangeSeekbar_textSize, TEXT_SIZE * metrics.scaledDensity);
         mGap = (int) a.getDimension(R.styleable.RangeSeekbar_spaceBetween, GAP * metrics.density);
 
         mTextArray = a.getTextArray(R.styleable.RangeSeekbar_markTextArray);
@@ -380,15 +383,15 @@ public class RangeSeekbar extends View {
         /*** 画游标 ***/
         // left cursor first
         final int leftWidth = mCursorW;
-        final int leftHieght = mCursorH;
+        final int leftHeight = mCursorH;
         final int leftLeft = (int) (mSeekbarRectSelected.left - (float) leftWidth);
         //final int leftTop = (int) (mSeekbarRect.bottom + mGap + 0.5f);
-        final int leftTop = (int) (mSeekbarRect.top - leftHieght/2);
+        final int leftTop = (int) (mSeekbarRect.top - leftHeight/2);
         mLeftCursorRect.left = leftLeft;
         mLeftCursorRect.top = leftTop;
         mLeftCursorRect.right = (int) mSeekbarRectSelected.left;
         //mLeftCursorRect.bottom = leftTop + leftHieght;
-        mLeftCursorRect.bottom =(int) mSeekbarRect.bottom+leftHieght/2;
+        mLeftCursorRect.bottom =(int) mSeekbarRect.bottom+leftHeight/2;
         mLeftCursorBG.setBounds(mLeftCursorRect);
         mLeftCursorBG.draw(canvas);
 
@@ -401,13 +404,13 @@ public class RangeSeekbar extends View {
         }
 
         final float textDrawLeft0 = leftLeft + (leftWidth - mTextWidthArray[index0]) / 2f;
-        final float textDrawBottom0 = mLeftCursorRect.bottom - (leftHieght - mTextHeight) / 1.5f;
+        final float textDrawBottom0 = mLeftCursorRect.bottom - (leftHeight - mTextHeight) / 1.5f;
 
        // canvas.drawText(text2draw0, textDrawLeft0, textDrawBottom0, mPaint);
 
         // right cursor second
         final int rightWidth = leftWidth;
-        final int rightHeight = leftHieght;
+        final int rightHeight = leftHeight;
         //final int rightLeft1 = (int) (mSeekbarRectSelected.right - (float) rightWidth / 2f);
         final int rightLeft1 = (int) (mSeekbarRectSelected.right );
         int right = (int) (rightLeft1 <= mPaddingRect.left ? mPaddingRect.left : rightLeft1);
@@ -899,9 +902,22 @@ public class RangeSeekbar extends View {
 
         void onRightCursorChanged(int location, String textMark);
     }
-    public void setOnCursorChangeListener(String[] date,OnCursorChangeListener cursorChangeListener){
-        mTextArray= date;
-        initData();
+    public void setOnCursorChangeListener(OnCursorChangeListener cursorChangeListener){
         mListener = cursorChangeListener;
     }
+    public void initDate(String[] date){
+        if (date.length>1) {
+            mTextArray= date;
+            initData();
+            invalidate();
+        }
+
+    }
+    public void setRightPosition(int pos){
+        if (pos>0) {
+            defaultRightCursorIndex = pos;
+        }
+
+    }
+
 }

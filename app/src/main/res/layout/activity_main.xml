@@ -33,4 +33,47 @@
         android:gravity="center"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/tv_left" />
+
+    <Button
+        android:id="@+id/tv_1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:text="上午"
+        android:textSize="15dp"
+        android:layout_below="@+id/tv_left"
+        android:layout_marginTop="50dp" />
+    <Button
+        android:id="@+id/tv_2"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tv_1"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:text="中午"
+        android:textSize="15dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_right"
+        android:layout_marginTop="50dp" />
+    <Button
+        android:gravity="center"
+        android:textColor="#333333"
+        android:text="晚上"
+        android:textSize="15dp"
+        android:id="@+id/tv_3"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_1"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:id="@+id/tv_index"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_3"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/tv_left" />
 </RelativeLayout>
