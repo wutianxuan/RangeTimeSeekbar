@@ -1,5 +1,6 @@
 package com.example.donghe.rangeseekbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.tv_1, R.id.tv_2, R.id.tv_3})
+    @OnClick({R.id.tv_1, R.id.tv_2, R.id.tv_3,R.id.tv_4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_1:
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tv_3:
                 seekbar.initDate(arrays3);
                 tv_index.setText(str+"左边:"+arrays3[seekbar.getLeftCursorIndex()]+"--"+"右边:"+arrays3[seekbar.getRightCursorIndex()]);
+                break;
+            case R.id.tv_4:
+                startActivity(new Intent(this,ScheduleActivity.class));
                 break;
             default:
                 break;
