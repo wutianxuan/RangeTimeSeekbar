@@ -16,4 +16,10 @@
         <attr name="seekbarColorSelected" 	format="color" />
         <attr name="autoMoveDuration" 		format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="CourseScheduleStudentView">
+        <attr name="courseScheduleStudentHeight" 			format="dimension" />
+        <attr name="courseScheduleStudenttextSize" 				format="dimension" />
+        <attr name="courseScheduleStudentspaceBetween" 			format="dimension" />
+    </declare-styleable>
 </resources>
