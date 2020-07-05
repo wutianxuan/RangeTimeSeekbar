@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <com.example.donghe.rangeseekbar.CourseScheduleStudentView
-            android:background="#f0ffff"
+            android:background="#A1DFEC"
             android:id="@+id/schedule_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
