@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +29,9 @@ class CourseScheduleStudentView extends RelativeLayout {
     private int textTitleSize = 14;
     private String textTitleBg = "#FC9549";
     private int textTitleDivider = 10;
+    private Rect mCourse;
+    private Paint mCoursePaint;
+    private float mDensity;
 
 
     public CourseScheduleStudentView(Context context) {
@@ -54,11 +60,26 @@ class CourseScheduleStudentView extends RelativeLayout {
         //获取所有子控件，拿到它的layoutparams对象，这样就可以拿到他的自定义属性
         int childCount = this.getChildCount();
         int viewWidth = width/3;
+        int usedWidth = 0 ;
         for (int i = 0; i < childCount; i++) {
             View childAt = getChildAt(i);
-
             MarginLayoutParams layoutParams = (MarginLayoutParams) childAt.getLayoutParams();
-            layoutParams.width = viewWidth;
+            switch (i) {
+                case 0:
+                    layoutParams.width = viewWidth;
+                    mCourse.left = childAt.getLeft();
+                    mCourse.right = mCourse.left+layoutParams.width;
+                    mCourse.top = textTitleDivider+childAt.getBottom();
+                    mCourse.bottom = 500+mCourse.top;
+                    break;
+                case 1:
+                    layoutParams.width = (width-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
+                    break;
+                case 2:
+                    layoutParams.width = width-usedWidth;
+                    break;
+            }
+            usedWidth += layoutParams.width;
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -67,8 +88,8 @@ class CourseScheduleStudentView extends RelativeLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        int lineWidth = 0;
-        int lineHeight = 0;
+        //int lineWidth = 0;
+       // int lineHeight = 0;
         int top = 0;
         int left = 0;
 
@@ -79,12 +100,25 @@ class CourseScheduleStudentView extends RelativeLayout {
             View childAt = getChildAt(i);
 
             MarginLayoutParams layoutParams = (MarginLayoutParams) childAt.getLayoutParams();
-
+            switch (i) {
+                case 0:
+                    mCourse.left = childAt.getLeft();
+                    mCourse.right = childAt.getRight();
+                    mCourse.top = textTitleDivider+childAt.getBottom();
+                    mCourse.bottom = 500+mCourse.top;
+                    break;
+                case 1:
+                    //layoutParams.width = (width-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
+                    break;
+                case 2:
+                    //layoutParams.width = width-usedWidth;
+                    break;
+            }
             //得到子view的测量建议高度
             int measuredHeight = childAt.getMeasuredHeight() + layoutParams.bottomMargin + layoutParams.topMargin;
             int measuredWidth = childAt.getMeasuredWidth() + layoutParams.leftMargin + layoutParams.rightMargin;
 
-            //换行
+            /*//换行
             if (measuredWidth + lineWidth > getMeasuredWidth()) {
 
                 top += lineHeight;
@@ -95,7 +129,7 @@ class CourseScheduleStudentView extends RelativeLayout {
 
                 lineHeight = Math.max(measuredHeight, lineHeight);
                 lineWidth += measuredWidth;
-            }
+            }*/
 
             //文字view的当前位置
             int ll = left + layoutParams.leftMargin;
@@ -140,13 +174,19 @@ class CourseScheduleStudentView extends RelativeLayout {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tvTitleCourse.getLayoutParams();
         layoutParams.setMargins(textTitleDivider, 0, textTitleDivider, 0);
         tvTitleCourse.setLayoutParams(layoutParams);
+        mDensity = getContext().getResources().getDisplayMetrics().density;
+        mCourse = new Rect();
+        initPaint();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        mCoursePaint.setColor(Color.parseColor("#7DCECD"));
+        canvas.drawRect(mCourse, mCoursePaint);
 
     }
+
 
     /*//要使子控件的margin属性有效，必须定义静态内部类，继承ViewGroup.MarginLayoutParams
     public static class LayoutParams extends ViewGroup.MarginLayoutParams{
@@ -161,6 +201,11 @@ class CourseScheduleStudentView extends RelativeLayout {
     public RelativeLayout.LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new RelativeLayout.LayoutParams(getContext(),attrs);
     }*/
-
+    private void initPaint() {
+        mCoursePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mCoursePaint.setAntiAlias(true);
+        mCoursePaint.setStyle(Paint.Style.FILL);
+       // mCoursePaint.setStrokeWidth(0.1f * mDensity);
+    }
 
 }
