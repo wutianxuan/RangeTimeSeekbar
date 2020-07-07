@@ -17,7 +17,7 @@
             android:background="#A1DFEC"
             android:id="@+id/schedule_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="800dp" />
     </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

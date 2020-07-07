@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.TextView;
  * Created by Tian on 2020/7/2.
  */
 class CourseScheduleStudentView extends RelativeLayout {
+    private static final String TAG = "CourseScheduleStudentVi";
 
     private TextView tvTitleTime;
     private TextView tvTitleCourse;
@@ -52,7 +54,13 @@ class CourseScheduleStudentView extends RelativeLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
+        int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
+        int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
 
+        Log.e(TAG, sizeWidth + "," + sizeHeight);
         //1获取当前控件的大小
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
@@ -67,10 +75,7 @@ class CourseScheduleStudentView extends RelativeLayout {
             switch (i) {
                 case 0:
                     layoutParams.width = viewWidth;
-                    /*mCourse.left = childAt.getLeft();
-                    mCourse.right = mCourse.left+layoutParams.width;
-                    mCourse.top = textTitleDivider+childAt.getBottom();
-                    mCourse.bottom = 500+mCourse.top;*/
+
                     break;
                 case 1:
                     layoutParams.width = (width-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
@@ -81,7 +86,7 @@ class CourseScheduleStudentView extends RelativeLayout {
             }
             usedWidth += layoutParams.width;
         }
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
     }
 
 
@@ -136,10 +141,8 @@ class CourseScheduleStudentView extends RelativeLayout {
             int tt = top + layoutParams.topMargin;
             int rr = ll + childAt.getMeasuredWidth();
             int bb = tt + childAt.getMeasuredHeight();
-
             //设置子view的确定位置
             childAt.layout(ll, tt, rr, bb);
-
             left += measuredWidth;
 
         }
@@ -202,7 +205,7 @@ class CourseScheduleStudentView extends RelativeLayout {
                     mCourse.bottom = 500+mCourse.top;
                     mCoursePaint.setColor(Color.RED);
                     canvas.drawRect(mCourse, mCoursePaint);
-                    //canvas.drawLine( mCourse.left,mCourse.top,mCourse.right, mCourse.bottom,mCoursePaint);
+                    //canvas.drawLine( 200,40,200,100,mCoursePaint);
                     break;
                 case 1:
                     //layoutParams.width = (width-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
