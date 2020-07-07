@@ -67,10 +67,10 @@ class CourseScheduleStudentView extends RelativeLayout {
             switch (i) {
                 case 0:
                     layoutParams.width = viewWidth;
-                    mCourse.left = childAt.getLeft();
+                    /*mCourse.left = childAt.getLeft();
                     mCourse.right = mCourse.left+layoutParams.width;
                     mCourse.top = textTitleDivider+childAt.getBottom();
-                    mCourse.bottom = 500+mCourse.top;
+                    mCourse.bottom = 500+mCourse.top;*/
                     break;
                 case 1:
                     layoutParams.width = (width-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
@@ -182,8 +182,37 @@ class CourseScheduleStudentView extends RelativeLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mCoursePaint.setColor(Color.parseColor("#7DCECD"));
-        canvas.drawRect(mCourse, mCoursePaint);
+        //mCoursePaint.setColor(Color.parseColor("#7DCECD"));
+        //canvas.drawRect(mCourse, mCoursePaint);
+
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        int count = getChildCount();
+        for (int i = 0; i < count; i++) {
+
+            View childAt = getChildAt(i);
+            switch (i) {
+                case 0:
+                    mCourse.left = childAt.getLeft();
+                    mCourse.right = childAt.getRight();
+                    mCourse.top = textTitleDivider+childAt.getBottom();
+                    mCourse.bottom = 500+mCourse.top;
+                    mCoursePaint.setColor(Color.RED);
+                    canvas.drawRect(mCourse, mCoursePaint);
+                    //canvas.drawLine( mCourse.left,mCourse.top,mCourse.right, mCourse.bottom,mCoursePaint);
+                    break;
+                case 1:
+                    //layoutParams.width = (width-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
+                    break;
+                case 2:
+                    //layoutParams.width = width-usedWidth;
+                    break;
+            }
+
+        }
 
     }
 
