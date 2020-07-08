@@ -18,8 +18,8 @@
     </declare-styleable>
 
     <declare-styleable name="CourseScheduleStudentView">
-        <attr name="courseScheduleStudentHeight" 			format="dimension" />
-        <attr name="courseScheduleStudenttextSize" 				format="dimension" />
-        <attr name="courseScheduleStudentspaceBetween" 			format="dimension" />
+        <attr name="courseScheduleStudentHeight" 		format="dimension" />
+        <attr name="courseScheduleStudenttextSize" 		format="dimension" />
+        <attr name="courseScheduleStudentspaceBetween" 	format="dimension" />
     </declare-styleable>
 </resources>

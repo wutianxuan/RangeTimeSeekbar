@@ -12,7 +12,6 @@
     tools:context="com.example.donghe.rangeseekbar.MainActivity">
 
     <com.example.donghe.rangeseekbar.RangeSeekbar
-
         android:id="@+id/seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
