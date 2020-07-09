@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,15 +34,12 @@ public class CourseScheduleStudentView extends RelativeLayout {
     private int textTitleSize = 14;
     private String textTitleBg = "#FC9549";
     private int textTitleDivider = 10;
-    private Rect mCourse;
     private Paint mCoursePaint;
     private float mDensity;
     private String[] arrays = {"08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"};
     private String[] array2 = {"14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"};
     private String[] arrays3 = {"19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00"};
     private LinearLayout linearTime;
-    private LinearLayout ItemLinearTime;
-
 
     public CourseScheduleStudentView(Context context) {
         this(context, null);
@@ -73,10 +71,10 @@ public class CourseScheduleStudentView extends RelativeLayout {
         Log.e(TAG, "widthSize:"+widthSize + ","+"heightSize:" + heightSize);
         Log.e(TAG, "widthMode:"+widthMode + ","+"heightMode:" + heightMode);
 
-        int layoutWidth = 0;
-        int layoutHeight = 0;
+        //int layoutWidth = 0;
+        //int layoutHeight = 0;
         // 计算出所有的childView的宽和高
-        measureChildren(widthMeasureSpec, heightMeasureSpec);
+        /*measureChildren(widthMeasureSpec, heightMeasureSpec);
 
         int cWidth = 0;
         int cHeight = 0;
@@ -106,10 +104,11 @@ public class CourseScheduleStudentView extends RelativeLayout {
         }
         Log.e(TAG, "layoutWidth:"+layoutWidth + ","+"layoutHeight:" + layoutHeight);
         //获取所有子控件，拿到它的layoutparams对象，这样就可以拿到他的自定义属性
-        int childCount = this.getChildCount();
-        int viewWidth = layoutWidth/3;
+        int childCount = this.getChildCount();*/
+        int viewWidth = widthSize/3;
         int usedWidth = 0 ;
-        for (int i = 0; i < childCount; i++) {
+        //遍历前三个title的子view
+        for (int i = 0; i < 3; i++) {
             View childAt = getChildAt(i);
             //自view自己测量
             //measureChild(childAt, widthMeasureSpec, heightMeasureSpec);
@@ -117,18 +116,23 @@ public class CourseScheduleStudentView extends RelativeLayout {
             switch (i) {
                 case 0:
                     layoutParams.width = viewWidth;
-
+                    View childAt3 = getChildAt(3);
+                    MarginLayoutParams layoutParams3 = (MarginLayoutParams) childAt3.getLayoutParams();
+                    layoutParams3.width = viewWidth;
                     break;
                 case 1:
-                    layoutParams.width = (layoutWidth-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
+                    layoutParams.width = (widthSize-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
                     break;
                 case 2:
-                    layoutParams.width = layoutWidth-usedWidth;
+                    layoutParams.width = widthSize-usedWidth;
+
+                    break;
+                default:
                     break;
             }
             usedWidth += layoutParams.width;
             // 测量并保存layout的宽高
-            setMeasuredDimension(layoutWidth, layoutHeight);
+            //setMeasuredDimension(layoutWidth, layoutHeight);
         }
     }
 
@@ -143,25 +147,11 @@ public class CourseScheduleStudentView extends RelativeLayout {
 
         int count = getChildCount();
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < 3; i++) {
 
             View childAt = getChildAt(i);
 
             MarginLayoutParams layoutParams = (MarginLayoutParams) childAt.getLayoutParams();
-            switch (i) {
-                case 0:
-                    mCourse.left = childAt.getLeft();
-                    mCourse.right = childAt.getRight();
-                    mCourse.top = textTitleDivider+childAt.getBottom();
-                    mCourse.bottom = 500+mCourse.top;
-                    break;
-                case 1:
-                    //layoutParams.width = (width-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
-                    break;
-                case 2:
-                    //layoutParams.width = width-usedWidth;
-                    break;
-            }
             //得到子view的测量建议高度
             int measuredHeight = childAt.getMeasuredHeight() + layoutParams.bottomMargin + layoutParams.topMargin;
             int measuredWidth = childAt.getMeasuredWidth() + layoutParams.leftMargin + layoutParams.rightMargin;
@@ -187,6 +177,27 @@ public class CourseScheduleStudentView extends RelativeLayout {
             //设置子view的确定位置
             childAt.layout(ll, tt, rr, bb);
             left += measuredWidth;
+            switch (i) {
+                case 0:
+                    View childAt4 = getChildAt(3);
+                    int ll3 = childAt.getLeft();
+                    int tt3= textTitleDivider+childAt.getBottom();
+                    int rr3 = childAt.getRight();
+                    int bb3 = tt3 + childAt4.getMeasuredHeight();
+                    //设置子view的确定位置
+                    childAt4.layout(ll3, tt3, rr3, bb3);
+
+                    break;
+                case 1:
+                    //layoutParams.width = (width-usedWidth-layoutParams.leftMargin-layoutParams.rightMargin)/2;
+                    break;
+                case 2:
+                    //layoutParams.width = width-usedWidth;
+                    break;
+                default:
+                    break;
+            }
+
 
         }
 
@@ -216,36 +227,64 @@ public class CourseScheduleStudentView extends RelativeLayout {
         tvTitleStudent.setGravity(Gravity.CENTER);
         linearTime = new LinearLayout(mContext);
         linearTime.setOrientation(LinearLayout.VERTICAL);
-        for (int i = 0; i < arrays.length; i++) {
-            ItemLinearTime = new LinearLayout(mContext);
-            ItemLinearTime.setOrientation(LinearLayout.HORIZONTAL);
-            ViewGroup.LayoutParams layoutParams = ItemLinearTime.getLayoutParams();
-            layoutParams.height = 200;
-            layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-            /*layoutParams.
-            ItemLinearTime.setLayoutParams(
-                    new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));*/
-            TextView timeTV = new TextView(mContext);
-            timeTV.setText(arrays[i]);
-        }
-
-
+        linearTime.setBackgroundColor(Color.parseColor("#1BBEFF"));
         addView(tvTitleTime);
         addView(tvTitleCourse);
         addView(tvTitleStudent);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tvTitleCourse.getLayoutParams();
-        layoutParams.setMargins(textTitleDivider, 0, textTitleDivider, 0);
-        tvTitleCourse.setLayoutParams(layoutParams);
+        addView(linearTime);
+        RelativeLayout.LayoutParams layoutParamsTitle = (RelativeLayout.LayoutParams) tvTitleCourse.getLayoutParams();
+        layoutParamsTitle.setMargins(textTitleDivider, 0, textTitleDivider, 0);
+        tvTitleCourse.setLayoutParams(layoutParamsTitle);
+        //左侧时间的linealayout
+        /*RelativeLayout.LayoutParams layoutParamsLinearTime = (RelativeLayout.LayoutParams) linearTime.getLayoutParams();
+        layoutParamsLinearTime.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        linearTime.setLayoutParams(layoutParamsLinearTime);*/
+        for (int i = 0; i < arrays.length; i++) {
+            LinearLayout ItemLinearTime = new LinearLayout(mContext);
+            ItemLinearTime.setOrientation(LinearLayout.HORIZONTAL);
+            ItemLinearTime.setBackgroundColor(Color.parseColor("#27FFC0"));
+            ItemLinearTime.setGravity(Gravity.CENTER_VERTICAL);
+            linearTime.addView(ItemLinearTime);
+
+            LinearLayout.LayoutParams layoutParamsItem = (LinearLayout.LayoutParams) ItemLinearTime.getLayoutParams();
+            layoutParamsItem.height = 200;
+            layoutParamsItem.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            layoutParamsItem.setMargins(0,0,0,10);
+            ItemLinearTime.setLayoutParams(layoutParamsItem);
+            TextView timeTV = new TextView(mContext);
+            timeTV.setText(arrays[i]);
+            timeTV.setGravity(Gravity.CENTER);
+            timeTV.setBackgroundColor(Color.parseColor("#A8E4FF"));
+            ImageView timeIv = new ImageView(mContext);
+            timeIv.setBackgroundColor(Color.parseColor("#E0E0E0"));
+            ImageView timeIv2 = new ImageView(mContext);
+            timeIv2.setBackgroundColor(Color.parseColor("#E0E0E0"));
+            ItemLinearTime.addView(timeIv);
+            ItemLinearTime.addView(timeTV);
+            ItemLinearTime.addView(timeIv2);
+            LinearLayout.LayoutParams tvParams = (LinearLayout.LayoutParams) timeTV.getLayoutParams();
+            tvParams.weight = 1;
+//            tvParams.width = 0;
+            timeTV.setLayoutParams(tvParams);
+            LinearLayout.LayoutParams ivParams1 = (LinearLayout.LayoutParams) timeIv.getLayoutParams();
+            ivParams1.height = 3;
+            ivParams1.width = 30;
+            timeIv.setLayoutParams(ivParams1);
+            LinearLayout.LayoutParams ivParams2 = (LinearLayout.LayoutParams) timeIv2.getLayoutParams();
+            ivParams2.height = 3;
+            ivParams2.width = 30;
+            timeIv2.setLayoutParams(ivParams2);
+        }
+
+
+
         mDensity = getContext().getResources().getDisplayMetrics().density;
-        mCourse = new Rect();
         initPaint();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mCoursePaint.setColor(Color.parseColor("#7DCECD"));
-        canvas.drawRect(mCourse, mCoursePaint);
 
     }
 

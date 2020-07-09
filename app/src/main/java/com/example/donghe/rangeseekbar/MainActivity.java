@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 tv_index.setText(str+"左边:"+arrays3[seekbar.getLeftCursorIndex()]+"--"+"右边:"+arrays3[seekbar.getRightCursorIndex()]);
                 break;
             case R.id.tv_4:
-                startActivity(new Intent(this,ScheduleActivity.class));
+                startActivity(new Intent(this,Schedule22Activity.class));
                 break;
             default:
                 break;
